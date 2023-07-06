@@ -33,14 +33,11 @@ $ ./output/tools/mkimage -A riscv -T ramdisk -d busybox-1.32.1/initramfs.cpio.gz
 ```
 ext4load mmc 1:1 0x1c00000 u-boot-dtb.bin; go 0x1c00000
 
-setenv bootargs console=sbi earlycon loglevel=7 init -s initcall_debug; setenv kernel_comp_addr_r 0x80200000; setenv kernel_comp_size 0x800000
+setenv bootargs earlycon loglevel=7; setenv kernel_comp_addr_r 0x80200000; setenv kernel_comp_size 0x800000
 
 kernel_addr_r=0x20000000; fdt_addr_r=0x1d000000; ramdisk_addr_r=0x30000000
 
-load mmc 0:1 $ramdisk_addr_r initrd.img
-ext4load mmc 0:1 ${kernel_addr_r} image-withspl.img
-ext4load mmc 0:1 ${fdt_addr_r} th1520-lichee-pi-4a.dtb
-bootm ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
+load mmc 0:1 $ramdisk_addr_r initrd.img; ext4load mmc 0:1 ${kernel_addr_r} image-withspl.img; ext4load mmc 0:1 ${fdt_addr_r} th1520-lichee-pi-4a.dtb; bootm ${kernel_addr_r} ${ramdisk_addr_r} ${fdt_addr_r}
 ```
 
 ## links
